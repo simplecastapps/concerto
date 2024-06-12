@@ -29,7 +29,7 @@ defmodule Concerto do
 
       if length(resources) == 0 do
         require Logger
-        Logger.warn "No routes found in #{inspect(root)}"
+        Logger.warning "No routes found in #{inspect(root)}"
       end
 
       methods = (opts[:methods] || ["GET", "POST", "PUT", "DELETE", "PATCH"])
@@ -170,7 +170,7 @@ defmodule Concerto do
           end
         end
 
-        for {method, _} <- Enum.into(@concerto_methods, [nil: nil]) do
+        for {method, _} <- @concerto_methods |> Enum.to_list() |> Keyword.put(nil, nil) do
           method = method && method <> " " || ""
           match = method <> path
 
